@@ -3,4 +3,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(PCC)
 
-add_executable(borboleta borboleta/main.c)
+add_executable(borboleta borboleta/worker.c)
