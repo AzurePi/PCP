@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="borboleta" type="CompoundRunConfigurationType">
+    <toRun name="borboleta0" type="CMakeRunConfiguration" />
+    <toRun name="borboleta1" type="CMakeRunConfiguration" />
+    <toRun name="borboleta2" type="CMakeRunConfiguration" />
+    <toRun name="borboleta3" type="CMakeRunConfiguration" />
+    <toRun name="borboleta4" type="CMakeRunConfiguration" />
+    <toRun name="borboleta5" type="CMakeRunConfiguration" />
+    <toRun name="borboleta6" type="CMakeRunConfiguration" />
+    <toRun name="borboleta7" type="CMakeRunConfiguration" />
+    <toRun name="borboleta_manager" type="CMakeRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>
