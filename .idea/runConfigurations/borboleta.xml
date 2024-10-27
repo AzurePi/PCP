@@ -8,7 +8,6 @@
     <toRun name="borboleta5" type="CMakeRunConfiguration" />
     <toRun name="borboleta6" type="CMakeRunConfiguration" />
     <toRun name="borboleta7" type="CMakeRunConfiguration" />
-    <toRun name="borboleta_manager" type="CMakeRunConfiguration" />
     <method v="2" />
   </configuration>
 </component>
