@@ -5,3 +5,5 @@
 /borboleta/CMakeFiles/
 /borboleta/borboleta_manager
 /borboleta/borboleta_worker
+/openMP/cmake-build-debug/
+/openMP/.idea/
