@@ -4,4 +4,5 @@ project(PCP)
 # Adiciona os subprojetos
 add_subdirectory(borboleta)
 add_subdirectory(openMP)
+add_subdirectory(mpi)
 

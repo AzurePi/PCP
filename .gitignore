@@ -8,3 +8,5 @@
 /openMP/cmake-build-debug/
 /openMP/.idea/
 /OpenMP
+/mpi/build/
+/build/
