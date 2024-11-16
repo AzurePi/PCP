@@ -24,7 +24,7 @@ int main() {
                 for (int run = 0; run < 10; run++) { // Executa 10 vezes
                     printf("%d %d %d (execução %d): ", n_threads, x_intervalos, y_intervalos, run + 1);
                     const double begin = omp_get_wtime();
-                    const double val = integral_dupla_omp(n_threads, x_intervalos, y_intervalos);
+                    const double val = integral_dupla_omp(x_intervalos, y_intervalos);
                     const double end = omp_get_wtime();
 
                     const double time_taken = end - begin;
@@ -42,7 +42,7 @@ int main() {
 }
 
 
-double integral_dupla_omp(int n_threads, int x_intervalos, int y_intervalos) {
+double integral_dupla_omp(int x_intervalos, int y_intervalos) {
     const double limite_sup = 1.5; // limite superior da integração
     const double limite_inf = 0; // limite inferior da integração
 
@@ -72,12 +72,12 @@ double integral_dupla_omp(int n_threads, int x_intervalos, int y_intervalos) {
     return integral;
 }
 
-void salvar_tempos(double (*tempos)[3][3], int threads_count, int intervalos_count) {
+void salvar_tempos(double (*tempos)[3][3], int cores_count, int intervalos_count) {
     printf("Salvando tempos...\n");
 
-    FILE *resultados = fopen("./tempos.txt", "w");
+    FILE *resultados = fopen("./tempos_openMP.txt", "w");
 
-    for (int i = 0; i < threads_count; i++) {
+    for (int i = 0; i < cores_count; i++) {
         for (int j = 0; j < intervalos_count; j++) {
             for (int k = 0; k < intervalos_count; k++) {
                 fprintf(resultados, "%.0f threads, %dº tamanho de intervalo X, %dº tamanho de intervalo Y: ", pow(2,i), j + 1,
