@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 }
 
 
-double integral_dupla_omp(int x_intervalos, int y_intervalos) {
+double integral_dupla_mpi(int x_intervalos, int y_intervalos) {
     const double limite_sup = 1.5; // limite superior da integração
     const double limite_inf = 0; // limite inferior da integração
 

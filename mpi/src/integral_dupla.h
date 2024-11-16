@@ -9,7 +9,7 @@
 
 #define F(x, y) sin(x*x + y*y)
 
-double integral_dupla_omp(int x_intervalos, int y_intervalos);
+double integral_dupla_mpi(int x_intervalos, int y_intervalos);
 void salvar_tempos(int cores, int x_intervalos, int y_intervalos, double tempo_medio);
 
 #endif //INTEGRAL_DUPLA_H
