@@ -24,7 +24,7 @@ int main() {
                 for (int run = 0; run < 10; run++) { // Executa 10 vezes
                     printf("%d %d %d (execução %d): ", n_threads, x_intervalos, y_intervalos, run + 1);
                     const double begin = omp_get_wtime();
-                    const double val = integral_dupla_omp(x_intervalos, y_intervalos);
+                    const double val = integral_dupla_omp(n_threads, x_intervalos, y_intervalos);
                     const double end = omp_get_wtime();
 
                     const double time_taken = end - begin;
@@ -42,7 +42,7 @@ int main() {
 }
 
 
-double integral_dupla_omp(int x_intervalos, int y_intervalos) {
+double integral_dupla_omp(int n_threads, int x_intervalos, int y_intervalos) {
     const double limite_sup = 1.5; // limite superior da integração
     const double limite_inf = 0; // limite inferior da integração
 
