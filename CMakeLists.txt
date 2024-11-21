@@ -5,4 +5,5 @@ project(PCP)
 add_subdirectory(borboleta)
 add_subdirectory(openMP)
 add_subdirectory(mpi)
+add_subdirectory(cuda)
 

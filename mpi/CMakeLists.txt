@@ -13,7 +13,8 @@ find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
 add_executable(mpi
-        ${SOURCE_DIR}/integral_dupla.c ${SOURCE_DIR}/integral_dupla.h)
+        ${SOURCE_DIR}/integral_dupla.c
+        ${SOURCE_DIR}/integral_dupla.h)
 
 target_link_libraries(mpi ${MPI_LIBRARIES} m)
 

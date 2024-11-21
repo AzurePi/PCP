@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
         double start_time = MPI_Wtime();
 
         // Calcula a integral
-        double result = integral_dupla_omp(x_intervalos, y_intervalos);
+        double result = integral_dupla_mpi(x_intervalos, y_intervalos);
 
         // Mede o tempo de fim
         double end_time = MPI_Wtime();
