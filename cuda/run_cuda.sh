@@ -24,7 +24,7 @@ INTERVALS_LIST=(1000 10000 100000) # Lista de intervalos
 for BLOCKS in "${BLOCKS_LIST[@]}"; do
   for X_INTERVALS in "${INTERVALS_LIST[@]}"; do
     for Y_INTERVALS in "${INTERVALS_LIST[@]}"; do
-      echo "Executando com $BLOCKS bloco(s), X=$X_INTERVALS, Y=$Y_INTERVALS"
+      echo "Executando com $BLOCKS bloco(s), $X_INTERVALS intervalos em X, $Y_INTERVALS intervalos em Y"
       $EXECUTABLE "$X_INTERVALS" "$Y_INTERVALS" "$BLOCKS"
     done
   done

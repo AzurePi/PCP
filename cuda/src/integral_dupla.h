@@ -1,15 +1,18 @@
 #ifndef INTEGRAL_DUPLA_H
 #define INTEGRAL_DUPLA_H
 
-#include <cuda_runtime.h>
-#include <cstdio>
-#include <unistd.h>
+#include <stdio.h>
+#include <cuda.h>
+#include <cuda_runtime_api.h>
 #include <math.h>
+#include <unistd.h>
 
 #define F(x, y) sin(x*x + y*y)
+#define THREADS_POR_BLOCO 512
 
-__global__ void integral_kernel(int x_intervalos, int y_intervalos, double h_x, double h_y, double *d_resultado);
-double integral_dupla_cuda(int n_blocos, int x_intervalos, int y_intervalos);
-void salvar_tempos(int cores, int x_intervalos, int y_intervalos, double tempo_medio);
+float cpuSecond();
+__global__ void integral_dupla_cuda(float *resultado, float h_x, float h_d, int x_intervalos, int y_intervalos,
+                                    float limite_inf);
+void salvar_tempos(int blocos, int x_intervalos, int y_intervalos, double tempo_medio);
 
 #endif //INTEGRAL_DUPLA_H

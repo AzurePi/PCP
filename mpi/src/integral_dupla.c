@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
         // Mede o tempo de início
         double start_time = MPI_Wtime();
 
-        // Calcula a integral
+        // Calcula a integralintegral_dupla_mpi
         double result = integral_dupla_mpi(x_intervalos, y_intervalos);
 
         // Mede o tempo de fim
