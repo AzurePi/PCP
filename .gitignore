@@ -1,10 +1,9 @@
-/cmake-build-debug/
 /borboleta/Makefile
 /borboleta/CMakeCache.txt
 /borboleta/cmake_install.cmake
 /borboleta/CMakeFiles/
 /borboleta/borboleta_manager
 /borboleta/borboleta_worker
-/openMP/cmake-build-debug/
 */build/
 .idea
+*/cmake-build-debug/
