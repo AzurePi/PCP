@@ -1,7 +1,5 @@
 #include "integral_dupla.h"
 
-#include <bits/time.h>
-
 float cpuSecond() {
     struct timespec tp;
     clock_gettime(CLOCK_MONOTONIC, &tp);
@@ -26,34 +24,30 @@ int main(int argc, char *argv[]) {
     float h_x = (limite_sup - limite_inf) / x_intervalos;
     float h_y = (limite_sup - limite_inf) / y_intervalos;
 
-    // Variável para armazenar o resultado final
-    float *resultado_d, resultado_h = 0.0f;
-    cudaMalloc((void **)&resultado_d, sizeof(float));
-    cudaMemcpy(resultado_d, &resultado_h, sizeof(float), cudaMemcpyHostToDevice);
-
     double total_time = 0.0f;
+
+    float *resultado_d, resultado_h = 0.0f; // Variável para armazenar o resultado final
 
     // Realizar 10 execuções para calcular o tempo médio
     for (int i = 0; i < 10; ++i) {
-        cudaMemset(resultado_d, 0, sizeof(float)); // Reinicializar o resultado na memória do dispositivo
+        cudaMalloc((void **)&resultado_d, sizeof(float));
+        cudaMemset(resultado_d, 0, sizeof(float));
 
-        // Medir o tempo de execução
-        const double start = cpuSecond();
+        const double start = cpuSecond(); // Medir o tempo de execução
         integral_dupla_cuda<<<n_blocos, THREADS_POR_BLOCO>>>(resultado_d, h_x, h_y, x_intervalos, y_intervalos,
                                                              limite_inf);
         cudaDeviceSynchronize();
-        const double end = cpuSecond();
+        const double end = cpuSecond(); // Medir o tempo de execução
         const double run_time = end - start;
         total_time += run_time;
 
         // Recuperar o resultado
         cudaMemcpy(&resultado_h, resultado_d, sizeof(float), cudaMemcpyDeviceToHost);
+        cudaFree(resultado_d);
+
+        resultado_h *= h_x * h_y; // Ajustar o resultado pelo tamanho dos passos
         printf("Resultado da integral: %f | Tempo: %lf\n", resultado_h, run_time);
     }
-
-    cudaFree(resultado_d);
-
-    resultado_h *= h_x * h_y; // Ajustar o resultado pelo tamanho dos passos dx e dy
 
     double avg_time = total_time / 10.0;
 
@@ -66,28 +60,38 @@ int main(int argc, char *argv[]) {
 // Kernel CUDA para calcular a integral dupla
 __global__ void integral_dupla_cuda(float *resultado, float h_x, float h_d, int x_intervalos, int y_intervalos,
                                     float limite_inf) {
-    unsigned const int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    unsigned const int totalThreads = gridDim.x * blockDim.x;
+    __shared__ float soma_bloco[THREADS_POR_BLOCO]; //acumulador para o bloco
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int totalThreads = gridDim.x * blockDim.x;
 
-    float soma = 0.0f;
+    float soma_thread = 0.0f; //acumulador para um dado thread
 
     // Cada thread processa múltiplos intervalos
-    for (unsigned int i = idx; i < x_intervalos * y_intervalos; i += totalThreads) {
-        unsigned const int ix = i % x_intervalos;
-        unsigned const int iy = i / x_intervalos;
+    for (int i = idx; i < x_intervalos * y_intervalos; i += totalThreads) {
+        int ix = i % x_intervalos;
+        int iy = i / x_intervalos;
 
-        float const x = limite_inf + ix * h_x;
-        float const y = limite_inf + iy * h_d;
+        float x = limite_inf + ix * h_x;
+        float y = limite_inf + iy * h_d;
 
-        float const f = F(x, y);
+        float f = F(x, y);
         if (ix == 0 || ix == x_intervalos - 1 || iy == 0 || iy == y_intervalos - 1)
-            soma += f * 0.5f; // borda
+            soma_thread += f * 0.5f; // borda
         else
-            soma += f; // interior
+            soma_thread += f; // interior
     }
 
-    // Soma parcial da thread
-    atomicAdd(resultado, soma);
+    soma_bloco[threadIdx.x] = soma_thread;
+    __syncthreads();
+
+    for (int i = blockDim.x / 2; i > 0; i >>= 1) {
+        if (threadIdx.x < i)
+            soma_bloco[threadIdx.x] += soma_bloco[threadIdx.x + i];
+        __syncthreads();
+    }
+
+    if (threadIdx.x == 0)
+        atomicAdd(resultado, soma_bloco[0]);
 }
 
 void salvar_tempos(int blocos, int x_intervalos, int y_intervalos, double tempo_medio) {
